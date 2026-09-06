@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-base-950 text-ink-100 antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: theme("colors.base.600");
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: theme("colors.base.500");
+}
+
+.card {
+  @apply rounded-xl border border-base-700 bg-base-900 shadow-card;
+}
+
+.risk-high {
+  @apply text-signal-red;
+}
+.risk-medium {
+  @apply text-signal-amber;
+}
+.risk-low {
+  @apply text-signal-teal;
+}
+
+.mono-tabular {
+  font-variant-numeric: tabular-nums;
+}

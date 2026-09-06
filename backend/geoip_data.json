@@ -1,0 +1,25 @@
+{
+  "_comment": "Offline synthetic GeoIP/ASN lookup table. Key = first 3 octets of IPv4 (a.b.c). Bundled locally so enrichment never needs a live network/API call.",
+  "prefixes": {
+    "8.8.8":       { "country": "US", "asn": "AS15169", "asn_org": "Google LLC",              "risk_flag": false },
+    "23.45.11":    { "country": "US", "asn": "AS16509",  "asn_org": "Amazon AWS",              "risk_flag": false },
+    "45.79.201":   { "country": "US", "asn": "AS63949",  "asn_org": "Linode LLC",              "risk_flag": false },
+    "77.88.55":    { "country": "RU", "asn": "AS13238",  "asn_org": "Yandex LLC",              "risk_flag": false },
+    "82.165.34":   { "country": "DE", "asn": "AS8560",   "asn_org": "1&1 Ionos SE",            "risk_flag": false },
+    "103.21.244":  { "country": "IN", "asn": "AS55836",  "asn_org": "Reliance Jio",            "risk_flag": false },
+    "116.202.19":  { "country": "DE", "asn": "AS24940",  "asn_org": "Hetzner Online GmbH",     "risk_flag": false },
+    "133.130.99":  { "country": "JP", "asn": "AS2519",   "asn_org": "NTT PC Communications",   "risk_flag": false },
+    "139.162.72":  { "country": "SG", "asn": "AS63949",  "asn_org": "Linode Singapore",        "risk_flag": false },
+    "157.240.12":  { "country": "US", "asn": "AS32934",  "asn_org": "Meta Platforms",          "risk_flag": false },
+    "177.54.146":  { "country": "BR", "asn": "AS28573",  "asn_org": "Claro NXT Telecom",       "risk_flag": false },
+    "185.220.101": { "country": "NL", "asn": "AS60729",  "asn_org": "Unnamed Offshore Hosting","risk_flag": true  },
+    "192.42.116":  { "country": "NL", "asn": "AS1101",   "asn_org": "Stichting NLnet",         "risk_flag": true  },
+    "5.188.62":    { "country": "RU", "asn": "AS49505",  "asn_org": "Selectel Bulletproof",    "risk_flag": true  },
+    "89.248.165":  { "country": "SC", "asn": "AS44066",  "asn_org": "Aeza Group (Seychelles)", "risk_flag": true  },
+    "196.216.2":   { "country": "ZA", "asn": "AS37105",  "asn_org": "Vodacom SA",              "risk_flag": false },
+    "203.0.113":   { "country": "AU", "asn": "AS7545",   "asn_org": "TPG Telecom",             "risk_flag": false },
+    "212.83.32":   { "country": "FR", "asn": "AS16276",  "asn_org": "OVH SAS",                 "risk_flag": false },
+    "216.58.211":  { "country": "US", "asn": "AS15169",  "asn_org": "Google LLC",              "risk_flag": false },
+    "51.15.88":    { "country": "GB", "asn": "AS12876",  "asn_org": "Scaleway UK",             "risk_flag": false }
+  }
+}
