@@ -11,7 +11,7 @@ class GlassCard extends StatefulWidget {
   const GlassCard({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.all(20),
+    this.padding = const EdgeInsets.all(16),
     this.onTap,
     this.hoverGlow = true,
   });
@@ -42,19 +42,21 @@ class _GlassCardState extends State<GlassCard> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: _hovering && widget.hoverGlow
-                  ? AppColors.primary.withValues(alpha: 0.55)
+                  ? AppColors.primary.withValues(alpha: 0.45)
                   : AppColors.border,
               width: 1,
             ),
-            boxShadow: _hovering && widget.hoverGlow
-                ? [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.12),
-                      blurRadius: 24,
-                      spreadRadius: -4,
-                    ),
-                  ]
-                : [],
+            boxShadow: [
+              BoxShadow(
+                color: (_hovering && widget.hoverGlow
+                        ? AppColors.primary
+                        : const Color(0xFF0F172A))
+                    .withValues(alpha: _hovering && widget.hoverGlow ? 0.14 : 0.04),
+                blurRadius: _hovering && widget.hoverGlow ? 22 : 10,
+                offset: const Offset(0, 2),
+                spreadRadius: -2,
+              ),
+            ],
           ),
           child: widget.child,
         ),

@@ -7,6 +7,7 @@ import '../../core/mock/mock_data.dart';
 import '../../shared/models/alert.dart';
 import '../../shared/models/wallet.dart';
 import '../../shared/widgets/glass_card.dart';
+import '../../shared/widgets/card_grid.dart';
 import 'widgets/alert_card.dart';
 
 class AlertsPage extends StatefulWidget {
@@ -96,18 +97,16 @@ class _SummaryRow extends StatelessWidget {
       for (final s in AlertSeverity.values) s: alerts.where((a) => a.severity == s).length,
     };
 
-    return GridView.count(
-      crossAxisCount: cols,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      childAspectRatio: 2.0,
-      children: AlertSeverity.values.map((s) {
+    return CardGrid(
+      columns: cols,
+      spacing: 16,
+      runSpacing: 16,
+      cards: AlertSeverity.values.map((s) {
         final color = AppColors.riskColor(s.asRiskLevel.label);
         return GlassCard(
           hoverGlow: false,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 padding: const EdgeInsets.all(9),
@@ -119,6 +118,7 @@ class _SummaryRow extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('${counts[s]}', style: AppTextStyles.statNumber.copyWith(fontSize: 22)),

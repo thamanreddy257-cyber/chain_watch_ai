@@ -77,7 +77,7 @@ class _ReportPageState extends State<ReportPage> {
                 ),
               )
             else
-              _ReportDocument(key: ValueKey(_selected!.address), wallet: _selected!),
+              _ReportDocument(key: ValueKey(_selected!.address), wallet: _selected!, isNarrow: isNarrow),
           ],
         ),
       ),
@@ -87,7 +87,8 @@ class _ReportPageState extends State<ReportPage> {
 
 class _ReportDocument extends StatelessWidget {
   final Wallet wallet;
-  const _ReportDocument({super.key, required this.wallet});
+  final bool isNarrow;
+  const _ReportDocument({super.key, required this.wallet, required this.isNarrow});
 
   @override
   Widget build(BuildContext context) {
@@ -103,16 +104,23 @@ class _ReportDocument extends StatelessWidget {
       children: [
         GlassCard(
           hoverGlow: false,
-          padding: const EdgeInsets.all(32),
+          padding: EdgeInsets.all(isNarrow ? 18 : 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10,
+                runSpacing: 6,
                 children: [
-                  const Icon(LucideIcons.shield, color: AppColors.primary, size: 22),
-                  const SizedBox(width: 10),
-                  Text('CHAINWATCH AI', style: AppTextStyles.headlineSmall),
-                  const Spacer(),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(LucideIcons.shield, color: AppColors.primary, size: 22),
+                      const SizedBox(width: 10),
+                      Text('CHAINWATCH AI', style: AppTextStyles.headlineSmall),
+                    ],
+                  ),
                   Text('Report #CW-${wallet.address.hashCode.abs() % 100000}',
                       style: AppTextStyles.monoSmall),
                 ],
@@ -121,7 +129,8 @@ class _ReportDocument extends StatelessWidget {
               Text('Generated ${DateFormat('MMMM d, yyyy · HH:mm').format(generatedAt)} UTC',
                   style: AppTextStyles.bodySmall),
               const SizedBox(height: 28),
-              Text('Wallet Investigation Report', style: AppTextStyles.displayMedium.copyWith(fontSize: 26)),
+              Text('Wallet Investigation Report',
+                  style: AppTextStyles.displayMedium.copyWith(fontSize: isNarrow ? 21 : 26)),
               const SizedBox(height: 24),
               const Divider(color: AppColors.borderSubtle),
               const SizedBox(height: 28),
@@ -210,7 +219,11 @@ class _ReportDocument extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                Text(w.label, style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary)),
+                                Flexible(
+                                  child: Text(w.label,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary)),
+                                ),
                                 const SizedBox(width: 8),
                                 Text(w.shortAddress, style: AppTextStyles.monoSmall),
                               ],

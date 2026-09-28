@@ -19,21 +19,21 @@ class FeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassCard(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(9),
             decoration: BoxDecoration(
               color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(data.icon, color: AppColors.primary, size: 22),
+            child: Icon(data.icon, color: AppColors.primary, size: 20),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 14),
           Text(data.title, style: AppTextStyles.headlineSmall),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Text(data.description, style: AppTextStyles.bodyMedium),
         ],
       ),

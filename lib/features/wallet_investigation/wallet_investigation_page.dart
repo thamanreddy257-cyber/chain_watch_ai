@@ -205,64 +205,70 @@ class _HeaderCardState extends State<_HeaderCard> {
         children: [
           RiskGauge(score: w.riskScore, level: w.riskLevel),
           SizedBox(width: widget.isNarrow ? 0 : 28, height: widget.isNarrow ? 20 : 0),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: widget.isNarrow ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-              children: [
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 12,
-                  children: [
-                    Text(w.label, style: AppTextStyles.headlineLarge),
-                    RiskBadge(level: w.riskLevel),
-                    if (w.isKnownHighRisk)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: AppColors.riskCritical.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Text('KNOWN HIGH-RISK',
-                            style: AppTextStyles.label.copyWith(color: AppColors.riskCritical, fontSize: 10)),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                InkWell(
-                  onTap: () async {
-                    await Clipboard.setData(ClipboardData(text: w.address));
-                    setState(() => _copied = true);
-                    Future.delayed(const Duration(seconds: 2), () {
-                      if (mounted) setState(() => _copied = false);
-                    });
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(child: Text(w.address, style: AppTextStyles.mono, overflow: TextOverflow.ellipsis)),
-                      const SizedBox(width: 8),
-                      Icon(_copied ? LucideIcons.check : LucideIcons.copy,
-                          size: 14, color: _copied ? AppColors.secondary : AppColors.textMuted),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 18),
-                Wrap(
-                  spacing: 28,
-                  runSpacing: 12,
-                  children: [
-                    _Stat(label: 'Balance', value: '${w.balanceBtc.toStringAsFixed(4)} BTC'),
-                    _Stat(label: 'Transactions', value: '${w.totalTransactions}'),
-                    _Stat(label: 'First Seen', value: DateFormat('MMM d, yyyy').format(w.firstSeen)),
-                    _Stat(label: 'Cluster', value: w.cluster),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          _headerDetails(w),
         ],
       ),
     );
+  }
+
+  Widget _headerDetails(Wallet w) {
+    final column = Column(
+      crossAxisAlignment: widget.isNarrow ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 12,
+          alignment: widget.isNarrow ? WrapAlignment.center : WrapAlignment.start,
+          children: [
+            Text(w.label, style: AppTextStyles.headlineLarge),
+            RiskBadge(level: w.riskLevel),
+            if (w.isKnownHighRisk)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.riskCritical.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text('KNOWN HIGH-RISK',
+                    style: AppTextStyles.label.copyWith(color: AppColors.riskCritical, fontSize: 10)),
+              ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        InkWell(
+          onTap: () async {
+            await Clipboard.setData(ClipboardData(text: w.address));
+            setState(() => _copied = true);
+            Future.delayed(const Duration(seconds: 2), () {
+              if (mounted) setState(() => _copied = false);
+            });
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(child: Text(w.address, style: AppTextStyles.mono, overflow: TextOverflow.ellipsis)),
+              const SizedBox(width: 8),
+              Icon(_copied ? LucideIcons.check : LucideIcons.copy,
+                  size: 14, color: _copied ? AppColors.secondary : AppColors.textMuted),
+            ],
+          ),
+        ),
+        const SizedBox(height: 18),
+        Wrap(
+          spacing: 28,
+          runSpacing: 12,
+          alignment: widget.isNarrow ? WrapAlignment.center : WrapAlignment.start,
+          children: [
+            _Stat(label: 'Balance', value: '${w.balanceBtc.toStringAsFixed(4)} BTC'),
+            _Stat(label: 'Transactions', value: '${w.totalTransactions}'),
+            _Stat(label: 'First Seen', value: DateFormat('MMM d, yyyy').format(w.firstSeen)),
+            _Stat(label: 'Cluster', value: w.cluster),
+          ],
+        ),
+      ],
+    );
+
+    return widget.isNarrow ? column : Expanded(child: column);
   }
 }
 
@@ -322,34 +328,38 @@ class _TransactionHistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassCard(
-      hoverGlow: false,
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text('Transaction History (${txs.length})', style: AppTextStyles.headlineSmall),
-          ),
-          const SizedBox(height: 8),
-          if (txs.isEmpty)
+    return LayoutBuilder(builder: (context, constraints) {
+      final rowNarrow = constraints.maxWidth < 460;
+      return GlassCard(
+        hoverGlow: false,
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text('No transactions found for this address.', style: AppTextStyles.bodyMedium),
-            )
-          else
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 480),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: txs.length,
-                itemBuilder: (context, i) => TransactionRow(tx: txs[i], focusAddress: address),
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text('Transaction History (${txs.length})', style: AppTextStyles.headlineSmall),
             ),
-        ],
-      ),
-    );
+            const SizedBox(height: 8),
+            if (txs.isEmpty)
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text('No transactions found for this address.', style: AppTextStyles.bodyMedium),
+              )
+            else
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 480),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: txs.length,
+                  itemBuilder: (context, i) =>
+                      TransactionRow(tx: txs[i], focusAddress: address, isNarrow: rowNarrow),
+                ),
+              ),
+          ],
+        ),
+      );
+    });
   }
 }
 

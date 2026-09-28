@@ -5,14 +5,14 @@ import 'app_text_styles.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData get dark {
+  static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       scaffoldBackgroundColor: AppColors.background,
       canvasColor: AppColors.background,
       fontFamily: AppTextStyles.bodyMedium.fontFamily,
-      colorScheme: const ColorScheme.dark(
+      colorScheme: const ColorScheme.light(
         surface: AppColors.background,
         primary: AppColors.primary,
         secondary: AppColors.secondary,

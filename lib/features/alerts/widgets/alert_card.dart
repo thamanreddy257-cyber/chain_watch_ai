@@ -66,17 +66,28 @@ class AlertCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(alert.description, style: AppTextStyles.bodyMedium),
                 const SizedBox(height: 12),
-                Row(
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 14,
+                  runSpacing: 6,
                   children: [
-                    Icon(LucideIcons.wallet, size: 12, color: AppColors.textMuted),
-                    const SizedBox(width: 6),
-                    Text(_short(alert.walletAddress), style: AppTextStyles.monoSmall),
-                    const SizedBox(width: 16),
-                    Icon(LucideIcons.clock, size: 12, color: AppColors.textMuted),
-                    const SizedBox(width: 6),
-                    Text(DateFormat('MMM d, yyyy · HH:mm').format(alert.timestamp),
-                        style: AppTextStyles.bodySmall),
-                    const SizedBox(width: 16),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(LucideIcons.wallet, size: 12, color: AppColors.textMuted),
+                        const SizedBox(width: 6),
+                        Text(_short(alert.walletAddress), style: AppTextStyles.monoSmall),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(LucideIcons.clock, size: 12, color: AppColors.textMuted),
+                        const SizedBox(width: 6),
+                        Text(DateFormat('MMM d, yyyy · HH:mm').format(alert.timestamp),
+                            style: AppTextStyles.bodySmall),
+                      ],
+                    ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(

@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
-/// Central color palette for CHAINWATCH AI — a dark, premium
-/// cybersecurity intelligence aesthetic.
+/// Central color palette for CHAINWATCH AI — a bright, clean
+/// cybersecurity intelligence aesthetic with cool accent tones.
 class AppColors {
   AppColors._();
 
-  static const Color background = Color(0xFF0A0E14);
-  static const Color surface = Color(0xFF121826);
-  static const Color surfaceElevated = Color(0xFF161D2C);
-  static const Color border = Color(0xFF1E2733);
-  static const Color borderSubtle = Color(0xFF17202B);
+  static const Color background = Color(0xFFF4F7FC);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color surfaceElevated = Color(0xFFF0F4FA);
+  static const Color border = Color(0xFFE1E8F2);
+  static const Color borderSubtle = Color(0xFFEDF2F9);
 
-  static const Color primary = Color(0xFF00E5FF);
-  static const Color secondary = Color(0xFF00FF9C);
+  static const Color primary = Color(0xFF2F6FED);
+  static const Color secondary = Color(0xFF12B0A0);
 
-  static const Color textPrimary = Color(0xFFE6EDF3);
-  static const Color textSecondary = Color(0xFF8B98A9);
-  static const Color textMuted = Color(0xFF5A6677);
+  static const Color textPrimary = Color(0xFF101828);
+  static const Color textSecondary = Color(0xFF54627A);
+  static const Color textMuted = Color(0xFF97A2B8);
 
   // Risk levels
-  static const Color riskLow = Color(0xFF00E676);
-  static const Color riskMedium = Color(0xFFFFD54F);
-  static const Color riskHigh = Color(0xFFFF6D00);
-  static const Color riskCritical = Color(0xFFFF1744);
+  static const Color riskLow = Color(0xFF17A567);
+  static const Color riskMedium = Color(0xFFCB8A05);
+  static const Color riskHigh = Color(0xFFE0672A);
+  static const Color riskCritical = Color(0xFFE0304A);
 
   static Color riskColor(String level) {
     switch (level.toLowerCase()) {
@@ -40,11 +40,11 @@ class AppColors {
   }
 
   static const List<Color> chartGradient = [
-    Color(0xFF00E5FF),
-    Color(0xFF00FF9C),
+    Color(0xFF2F6FED),
+    Color(0xFF12B0A0),
   ];
 
-  static const Color success = Color(0xFF00E676);
-  static const Color warning = Color(0xFFFFD54F);
-  static const Color danger = Color(0xFFFF1744);
+  static const Color success = Color(0xFF17A567);
+  static const Color warning = Color(0xFFCB8A05);
+  static const Color danger = Color(0xFFE0304A);
 }

@@ -3,6 +3,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/mock/mock_data.dart';
+import '../../shared/widgets/card_grid.dart';
 import 'widgets/metric_card.dart';
 import 'widgets/volume_chart.dart';
 import 'widgets/risk_donut.dart';
@@ -32,40 +33,33 @@ class DashboardPage extends StatelessWidget {
             const SizedBox(height: 28),
             LayoutBuilder(builder: (context, constraints) {
               final cols = constraints.maxWidth < 700 ? 1 : (constraints.maxWidth < 1050 ? 2 : 3);
-              return GridView.count(
-                crossAxisCount: cols,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                childAspectRatio: cols == 1 ? 2.4 : 1.7,
-                children: [
-                  MetricCard(
-                    label: 'Total Transactions Analyzed',
-                    value: MockData.totalTransactionsAnalyzed,
-                    icon: LucideIcons.activity,
-                    accentColor: AppColors.primary,
-                    trend: '+12.4%',
-                    trendUp: true,
-                  ),
-                  MetricCard(
-                    label: 'High-Risk Wallets',
-                    value: MockData.highRiskWalletCount,
-                    icon: LucideIcons.shieldAlert,
-                    accentColor: AppColors.riskHigh,
-                    trend: '+3',
-                    trendUp: true,
-                  ),
-                  MetricCard(
-                    label: 'Active Threats',
-                    value: MockData.activeThreatCount,
-                    icon: LucideIcons.siren,
-                    accentColor: AppColors.riskCritical,
-                    trend: '-2',
-                    trendUp: false,
-                  ),
-                ],
-              );
+              final cards = [
+                MetricCard(
+                  label: 'Total Transactions Analyzed',
+                  value: MockData.totalTransactionsAnalyzed,
+                  icon: LucideIcons.activity,
+                  accentColor: AppColors.primary,
+                  trend: '+12.4%',
+                  trendUp: true,
+                ),
+                MetricCard(
+                  label: 'High-Risk Wallets',
+                  value: MockData.highRiskWalletCount,
+                  icon: LucideIcons.shieldAlert,
+                  accentColor: AppColors.riskHigh,
+                  trend: '+3',
+                  trendUp: true,
+                ),
+                MetricCard(
+                  label: 'Active Threats',
+                  value: MockData.activeThreatCount,
+                  icon: LucideIcons.siren,
+                  accentColor: AppColors.riskCritical,
+                  trend: '-2',
+                  trendUp: false,
+                ),
+              ];
+              return CardGrid(cards: cards, columns: cols, spacing: 20, runSpacing: 20);
             }),
             const SizedBox(height: 24),
             isMedium

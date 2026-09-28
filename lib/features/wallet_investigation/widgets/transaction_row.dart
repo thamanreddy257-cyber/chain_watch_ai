@@ -8,13 +8,27 @@ import '../../../shared/models/transaction.dart';
 class TransactionRow extends StatelessWidget {
   final WalletTransaction tx;
   final String focusAddress;
+  final bool isNarrow;
 
-  const TransactionRow({super.key, required this.tx, required this.focusAddress});
+  const TransactionRow({
+    super.key,
+    required this.tx,
+    required this.focusAddress,
+    this.isNarrow = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final isOutbound = tx.fromAddress == focusAddress;
     final color = isOutbound ? AppColors.riskHigh : AppColors.secondary;
+    final amount = Text(
+      '${isOutbound ? '-' : '+'}${tx.amountBtc.toStringAsFixed(4)}',
+      textAlign: TextAlign.right,
+      style: AppTextStyles.mono.copyWith(
+        color: color,
+        fontWeight: FontWeight.w600,
+      ),
+    );
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -37,7 +51,6 @@ class TransactionRow extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            flex: 3,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -49,25 +62,23 @@ class TransactionRow extends StatelessWidget {
                       : 'from ${_short(tx.fromAddress)}',
                   style: AppTextStyles.bodySmall,
                 ),
+                if (isNarrow) ...[
+                  const SizedBox(height: 3),
+                  Text(DateFormat('MMM d, yyyy · HH:mm').format(tx.timestamp),
+                      style: AppTextStyles.bodySmall),
+                ],
               ],
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Text(DateFormat('MMM d, yyyy · HH:mm').format(tx.timestamp),
-                style: AppTextStyles.bodySmall),
-          ),
-          Expanded(
-            flex: 1,
-            child: Text(
-              '${isOutbound ? '-' : '+'}${tx.amountBtc.toStringAsFixed(4)}',
-              textAlign: TextAlign.right,
-              style: AppTextStyles.mono.copyWith(
-                color: color,
-                fontWeight: FontWeight.w600,
-              ),
+          if (!isNarrow) ...[
+            Expanded(
+              flex: 2,
+              child: Text(DateFormat('MMM d, yyyy · HH:mm').format(tx.timestamp),
+                  style: AppTextStyles.bodySmall),
             ),
-          ),
+            SizedBox(width: 90, child: amount),
+          ] else
+            amount,
         ],
       ),
     );

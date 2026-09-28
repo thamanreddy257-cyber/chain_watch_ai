@@ -65,19 +65,19 @@ class LandingPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: isNarrow ? 20 : 64, vertical: 32),
+                    horizontal: isNarrow ? 18 : 64, vertical: 24),
                 child: Column(
                   children: [
                     _TopBar(isNarrow: isNarrow),
-                    SizedBox(height: isNarrow ? 48 : 90),
+                    SizedBox(height: isNarrow ? 32 : 90),
                     _Hero(isNarrow: isNarrow),
-                    SizedBox(height: isNarrow ? 40 : 64),
+                    SizedBox(height: isNarrow ? 28 : 64),
                     const PipelineStrip()
                         .animate()
                         .fadeIn(delay: 200.ms, duration: 500.ms),
-                    SizedBox(height: isNarrow ? 56 : 96),
+                    SizedBox(height: isNarrow ? 36 : 96),
                     _FeatureGrid(isNarrow: isNarrow, features: _features),
-                    SizedBox(height: isNarrow ? 48 : 80),
+                    SizedBox(height: isNarrow ? 32 : 80),
                     _Footer(),
                     const SizedBox(height: 24),
                   ],
@@ -109,7 +109,11 @@ class _TopBar extends StatelessWidget {
           child: const Icon(LucideIcons.shield, color: AppColors.primary, size: 18),
         ),
         const SizedBox(width: 10),
-        Text('CHAINWATCH AI', style: AppTextStyles.headlineSmall.copyWith(fontSize: 16)),
+        Flexible(
+          child: Text('CHAINWATCH AI',
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.headlineSmall.copyWith(fontSize: 16)),
+        ),
         const Spacer(),
         if (!isNarrow)
           Text('NTRO · PS 26146 · SIH 2026',
@@ -144,9 +148,12 @@ class _Hero extends StatelessWidget {
                     color: AppColors.secondary, shape: BoxShape.circle),
               ),
               const SizedBox(width: 8),
-              Text('Blockchain Intelligence Platform',
-                  style: AppTextStyles.bodySmall
-                      .copyWith(color: AppColors.secondary, fontWeight: FontWeight.w600)),
+              Flexible(
+                child: Text('Blockchain Intelligence Platform',
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.bodySmall
+                        .copyWith(color: AppColors.secondary, fontWeight: FontWeight.w600)),
+              ),
             ],
           ),
         ).animate().fadeIn(duration: 500.ms).slideY(begin: 0.2, end: 0),
@@ -200,7 +207,7 @@ class _PrimaryCtaState extends State<_PrimaryCta> {
         onTap: () => context.go('/dashboard'),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
           decoration: BoxDecoration(
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(12),
@@ -244,7 +251,7 @@ class _SecondaryCtaState extends State<_SecondaryCta> {
         onTap: () => context.go('/network'),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(12),
@@ -277,6 +284,23 @@ class _FeatureGrid extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final columns = width < 760 ? 1 : (width < 1100 ? 2 : 4);
 
+    if (columns == 1) {
+      // Cards vary in height once the description wraps, so let each one
+      // size to its own content instead of forcing a fixed aspect ratio.
+      return Column(
+        children: [
+          for (var i = 0; i < features.length; i++)
+            Padding(
+              padding: EdgeInsets.only(bottom: i == features.length - 1 ? 0 : 16),
+              child: FeatureCard(data: features[i])
+                  .animate(delay: (i * 100).ms)
+                  .fadeIn(duration: 450.ms)
+                  .slideY(begin: 0.15, end: 0, curve: Curves.easeOut),
+            ),
+        ],
+      );
+    }
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -285,7 +309,7 @@ class _FeatureGrid extends StatelessWidget {
         crossAxisCount: columns,
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
-        childAspectRatio: columns == 1 ? 2.0 : 0.95,
+        childAspectRatio: 0.95,
       ),
       itemBuilder: (context, i) {
         return FeatureCard(data: features[i])
