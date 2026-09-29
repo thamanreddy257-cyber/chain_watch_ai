@@ -5,19 +5,18 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../../../core/mock/mock_data.dart';
 import '../../../shared/models/alert.dart';
 import '../../../shared/models/wallet.dart';
 import '../../../shared/widgets/glass_card.dart';
 import '../../../shared/widgets/risk_badge.dart';
 
 class RecentAlertsPanel extends StatelessWidget {
-  const RecentAlertsPanel({super.key});
+  final List<ThreatAlert> alerts;
+
+  const RecentAlertsPanel({super.key, required this.alerts});
 
   @override
   Widget build(BuildContext context) {
-    final alerts = MockData.alerts.take(5).toList();
-
     return GlassCard(
       hoverGlow: false,
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -28,19 +27,34 @@ class RecentAlertsPanel extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               children: [
-                const Icon(LucideIcons.shieldAlert, size: 18, color: AppColors.textSecondary),
+                const Icon(
+                  LucideIcons.shieldAlert,
+                  size: 18,
+                  color: AppColors.textSecondary,
+                ),
                 const SizedBox(width: 8),
                 Text('Recent Alerts', style: AppTextStyles.headlineSmall),
                 const Spacer(),
                 TextButton(
                   onPressed: () => context.go('/alerts'),
-                  child: Text('View all', style: AppTextStyles.bodySmall.copyWith(color: AppColors.primary)),
+                  child: Text(
+                    'View all',
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 8),
-          ...alerts.map((a) => _AlertRow(alert: a)),
+          if (alerts.isEmpty)
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text('No recent alerts', style: AppTextStyles.bodySmall),
+            )
+          else
+            ...alerts.map((a) => _AlertRow(alert: a)),
         ],
       ),
     ).animate().fadeIn(duration: 450.ms).slideY(begin: 0.08, end: 0);
@@ -75,16 +89,20 @@ class _AlertRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(alert.title,
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textPrimary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis),
+                  Text(
+                    alert.title,
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   const SizedBox(height: 4),
-                  Text(DateFormat('MMM d, HH:mm').format(alert.timestamp),
-                      style: AppTextStyles.bodySmall),
+                  Text(
+                    DateFormat('MMM d, HH:mm').format(alert.timestamp),
+                    style: AppTextStyles.bodySmall,
+                  ),
                 ],
               ),
             ),

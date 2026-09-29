@@ -12,7 +12,9 @@ class VolumeChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxY = series.reduce((a, b) => a > b ? a : b) * 1.2;
+    final chartSeries = series.isEmpty ? [0.0] : series;
+    final highestValue = chartSeries.reduce((a, b) => a > b ? a : b);
+    final maxY = highestValue > 0 ? highestValue * 1.2 : 1.0;
 
     return GlassCard(
       hoverGlow: false,
@@ -24,13 +26,20 @@ class VolumeChart extends StatelessWidget {
               Text('Transaction Volume', style: AppTextStyles.headlineSmall),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.surfaceElevated,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text('Last 14 days',
-                    style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
+                child: Text(
+                  'Last 14 days',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ),
             ],
           ),
@@ -45,14 +54,16 @@ class VolumeChart extends StatelessWidget {
                   show: true,
                   drawVerticalLine: false,
                   horizontalInterval: maxY / 4,
-                  getDrawingHorizontalLine: (value) => FlLine(
-                    color: AppColors.border,
-                    strokeWidth: 1,
-                  ),
+                  getDrawingHorizontalLine: (value) =>
+                      FlLine(color: AppColors.border, strokeWidth: 1),
                 ),
                 titlesData: FlTitlesData(
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                   leftTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
@@ -73,8 +84,10 @@ class VolumeChart extends StatelessWidget {
                         final day = value.toInt();
                         return Padding(
                           padding: const EdgeInsets.only(top: 6),
-                          child: Text('D-${series.length - day}',
-                              style: AppTextStyles.monoSmall),
+                          child: Text(
+                            'D-${series.length - day}',
+                            style: AppTextStyles.monoSmall,
+                          ),
                         );
                       },
                     ),
@@ -86,18 +99,22 @@ class VolumeChart extends StatelessWidget {
                     getTooltipColor: (_) => AppColors.surfaceElevated,
                     tooltipBorder: const BorderSide(color: AppColors.border),
                     getTooltipItems: (spots) => spots
-                        .map((s) => LineTooltipItem(
-                              '${s.y.toStringAsFixed(0)} tx',
-                              AppTextStyles.bodySmall.copyWith(color: AppColors.primary),
-                            ))
+                        .map(
+                          (s) => LineTooltipItem(
+                            '${s.y.toStringAsFixed(0)} tx',
+                            AppTextStyles.bodySmall.copyWith(
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        )
                         .toList(),
                   ),
                 ),
                 lineBarsData: [
                   LineChartBarData(
                     spots: [
-                      for (var i = 0; i < series.length; i++)
-                        FlSpot(i.toDouble(), series[i]),
+                      for (var i = 0; i < chartSeries.length; i++)
+                        FlSpot(i.toDouble(), chartSeries[i]),
                     ],
                     isCurved: true,
                     curveSmoothness: 0.3,

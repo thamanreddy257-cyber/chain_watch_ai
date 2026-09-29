@@ -10,7 +10,7 @@ class MetricCard extends StatelessWidget {
   final String? suffix;
   final IconData icon;
   final Color accentColor;
-  final String trend;
+  final String? trend;
   final bool trendUp;
 
   const MetricCard({
@@ -19,8 +19,8 @@ class MetricCard extends StatelessWidget {
     required this.value,
     required this.icon,
     required this.accentColor,
-    required this.trend,
-    required this.trendUp,
+    this.trend,
+    this.trendUp = true,
     this.suffix,
   });
 
@@ -41,22 +41,25 @@ class MetricCard extends StatelessWidget {
                 ),
                 child: Icon(icon, color: accentColor, size: 18),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    trendUp ? Icons.trending_up : Icons.trending_down,
-                    size: 14,
-                    color: trendUp ? AppColors.success : AppColors.danger,
-                  ),
-                  const SizedBox(width: 3),
-                  Text(trend,
+              if (trend != null)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      trendUp ? Icons.trending_up : Icons.trending_down,
+                      size: 14,
+                      color: trendUp ? AppColors.success : AppColors.danger,
+                    ),
+                    const SizedBox(width: 3),
+                    Text(
+                      trend!,
                       style: AppTextStyles.bodySmall.copyWith(
                         color: trendUp ? AppColors.success : AppColors.danger,
                         fontWeight: FontWeight.w600,
-                      )),
-                ],
-              ),
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
           const SizedBox(height: 18),

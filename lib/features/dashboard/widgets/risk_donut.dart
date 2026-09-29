@@ -46,8 +46,11 @@ class RiskDonut extends StatelessWidget {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('$total', style: AppTextStyles.statNumber.copyWith(fontSize: 28)),
-                    Text('Wallets', style: AppTextStyles.bodySmall),
+                    Text(
+                      '$total',
+                      style: AppTextStyles.statNumber.copyWith(fontSize: 28),
+                    ),
+                    Text('Alerts', style: AppTextStyles.bodySmall),
                   ],
                 ),
               ],
@@ -66,20 +69,29 @@ class RiskDonut extends StatelessWidget {
                     Container(
                       width: 8,
                       height: 8,
-                      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(level.label, style: AppTextStyles.bodyMedium),
                     ),
-                    Text('$count',
-                        style: AppTextStyles.mono.copyWith(color: AppColors.textPrimary)),
+                    Text(
+                      '$count',
+                      style: AppTextStyles.mono.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     SizedBox(
                       width: 42,
-                      child: Text('${pct.toStringAsFixed(0)}%',
-                          textAlign: TextAlign.right,
-                          style: AppTextStyles.bodySmall),
+                      child: Text(
+                        '${pct.toStringAsFixed(0)}%',
+                        textAlign: TextAlign.right,
+                        style: AppTextStyles.bodySmall,
+                      ),
                     ),
                   ],
                 ),
